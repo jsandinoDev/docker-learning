@@ -1,7 +1,10 @@
-# Docker Commands
+# Docker Introduction && Basics commands
+
 
 https://hub.docker.com/
 
+
+### Build an Image
 Build an image base in the docker file
 ```bash
     docker build .
@@ -27,7 +30,7 @@ Re-start a container (docker run - creates a new container )
 ```bash
     docker start **name**
 ```
-
+---
 ### Attacth/Dettach mode
 (blocking que console)
 
@@ -74,7 +77,7 @@ Run images (expose and interact with new container)
 
 
 
-
+---
 
 Summary 
 ```dockerfile
@@ -212,3 +215,41 @@ docker build . -t goals:latest .
 ```
 
 ---
+
+
+### Sharing images to dockerhub / private registry
+
+Create the images with the name of the repo
+
+```shell
+docker build -t jsandinodev/node-hello-world .
+```
+
+Rename an existing imgage
+```shell
+docker tag node-demo:latest jsandinodev/node-hello-world .
+```
+**Do a Docker LogIn ***
+
+Push 
+```shell
+docker push jsandinodev/node-hello-world:tagname
+```
+
+### Pull images from docker hub
+
+Delete all local images
+```shell
+docker image prune -a
+```
+
+```shell
+ docker pull jsandinodev/node-hello-world
+```
+
+You can docker run, if there is no images local docker will download from dockerhub
+```shell
+ docker run jsandinodev/node-hello-world
+```
+
+It will not check if the image local if the latest version of the images
