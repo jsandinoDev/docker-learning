@@ -1,0 +1,47 @@
+version: "3.8"
+services:
+  mongodb: 
+    image: 'mongo'
+    volumes:
+      - data:/data/db
+    # Add specific NAME to the container
+    # container_name: mongodb
+    #environment:
+      # - MONGO_INITDB_ROOT_USERNAME=max
+      # - MONGO_INITDB_ROOT_PASSWORD=secret
+      # Using a file
+    env_file:
+      - ./env/mongo.env
+    # networks:
+    #   - goals-net
+  backend:
+    build: ./backend
+    # longer form
+    # build:
+    #   context: ./backend
+    #   dockerfile: dockerfile
+    #   args:
+    #     some-arg:1
+    ports:
+      - '80:80'
+    volumes:
+      - logs:/app/logs
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - ./env/backend.env
+    depends_on:
+      - mongodb
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend/src:/app/src
+    tty: true
+    stdin_open: true
+    depends_on:
+      - backend
+volumes:
+  data:
+  logs:
